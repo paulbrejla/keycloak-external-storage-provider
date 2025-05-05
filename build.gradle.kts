@@ -28,7 +28,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/paulbrejla/keycloak-rest-spi")
+            url = uri("https://maven.pkg.github.com/paulbrejla/keycloak-external-storage-provider")
             credentials {
                 username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
                 password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
