@@ -1,6 +1,7 @@
 package de.paulbrejla.keycloak.infrastructure;
 
 import de.paulbrejla.keycloak.domain.ExternalUser;
+import jakarta.ws.rs.core.MultivaluedHashMap;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
@@ -11,6 +12,8 @@ import org.keycloak.storage.UserStorageUtil;
 import org.keycloak.storage.adapter.AbstractUserAdapter;
 import org.keycloak.storage.federated.UserFederatedStorageProvider;
 
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public class ExternalUserAdapter extends AbstractUserAdapter {
@@ -52,6 +55,7 @@ public class ExternalUserAdapter extends AbstractUserAdapter {
     public void removeRequiredAction(String action) {
         getFederatedStorage().removeRequiredAction(realm, this.getId(), action);
     }
+
     UserFederatedStorageProvider getFederatedStorage() {
         return UserStorageUtil.userFederatedStorage(session);
     }
@@ -69,5 +73,25 @@ public class ExternalUserAdapter extends AbstractUserAdapter {
     @Override
     public String getId() {
         return super.getId();
+    }
+
+    @Override
+    public Map<String, List<String>> getAttributes() {
+        MultivaluedHashMap<String, String> attributes = new MultivaluedHashMap<>();
+        attributes.add(UserModel.USERNAME, getUsername());
+        attributes.add(UserModel.EMAIL, getEmail());
+        attributes.add(UserModel.FIRST_NAME, getFirstName());
+        attributes.add(UserModel.LAST_NAME, getLastName());
+        return attributes;
+    }
+
+    @Override
+    public String getFirstName() {
+        return user.firstName();
+    }
+
+    @Override
+    public String getLastName() {
+        return user.lastName();
     }
 }

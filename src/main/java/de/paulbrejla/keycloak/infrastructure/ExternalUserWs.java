@@ -19,7 +19,7 @@ public class ExternalUserWs {
     }
 
     private ExternalUser mockFetchUser() {
-        return new ExternalUser("username", "email", "password", "referenceKey");
+        return new ExternalUser("username", "email", "password", "referenceKey", "paul", "firstName" );
     }
     private ExternalUser fetchUser() {
         try {
